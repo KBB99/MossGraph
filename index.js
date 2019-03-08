@@ -1,0 +1,111 @@
+var d3 = require("d3");
+const people_coordinates = []
+const people_list = []
+
+
+function readSingleFile(e) {
+  var file = e.target.files[0];
+  if (!file) {
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var contents = e.target.result;
+    var lines = contents.split('\n');
+    const people_data = {}
+    try {
+      var x = 100
+      var y = 100
+      var w = 0
+      for (var i = 0; i<lines.length-1;i++) {
+        var space_split = lines[i].split(' ')
+        var person1 = space_split[0] + ' ' + space_split[1]
+        people_coordinates.push([x,y,w])
+        x += 100
+        if (x == 800){
+          x = 100
+          y += 100
+        }
+        var person2 = space_split[3] + ' ' + space_split[4]
+        people_coordinates.push([x,y,w])
+        x += 100
+        if (x == 800){
+          x = 100
+          y += 100
+        }
+        var same_lines = space_split[5]
+        if (!people_list.includes(person1)) {
+          people_list.push(person1)
+        }
+        if (!people_list.includes(person2)) {
+          people_list.push(person2)
+        }
+        if (person1 == undefined || person2 == undefined) {
+        }
+        else if (people_data[person1+person2] == undefined){
+          people_data[person1+' '+person2] = same_lines
+          index1 = people_list.indexOf(person1)
+          people_coordinates[index1][2] += (same_lines * 0.2)
+          index2 = people_list.indexOf(person2)
+          people_coordinates[index2][2] += (same_lines * 0.2)
+        }
+        else {
+          people_data[person1+' '+person2] += same_lines
+          index1 = people_list.indexOf(person1)
+          people_coordinates[index1][2] += (same_lines * 0.2)
+          index2 = people_list.indexOf(person2)
+          people_coordinates[index2][2] += (same_lines * 0.2)
+        }
+      }
+      for (var i = 0; i < people_list.length; i++){
+        createNewElement(people_list[i],i)
+      }
+      Object.keys(people_data).map(function(key) {
+        var linear_similar = people_data[key]
+        var split_key = key.split(" ")
+        var person1 = split_key[0] + " " + split_key[1]
+        var person2 = split_key[2] + " " + split_key[3]
+        addConnection(person1,person2)
+      })
+    }
+    catch (err) {
+      console.log(err)
+    }
+    };
+  reader.readAsText(file);
+}
+
+function displayContents(contents) {
+  var element = document.getElementById('file-content');
+  element.textContent = contents;
+}
+
+function createNewElement(person,i) {
+  try{
+    var x = people_coordinates[i][0]
+    var y = people_coordinates[i][1]
+    var w = people_coordinates[i][2]
+    d3.select("#graph").append("circle").attr("cx",x).attr("cy",y).attr("r",w).style("fill","grey").attr("id",person).append("title").text(person)
+}
+  catch (err){
+    console.log(err)
+  }
+}
+
+function addConnection(p1,p2) {
+  try {
+    var index1 = people_list.indexOf(p1)
+    var index2 = people_list.indexOf(p2)
+    var x1 = people_coordinates[index1][0]
+    var y1 = people_coordinates[index1][1]
+    var x2 = people_coordinates[index2][0]
+    var y2 = people_coordinates[index2][1]
+    d3.select("#graph").append("line").style("stroke","black").attr("x1",x1).attr("y1",y1).attr("x2",x2).attr("y2",y2)
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
+
+document.getElementById('file-input')
+  .addEventListener('change', readSingleFile, false);

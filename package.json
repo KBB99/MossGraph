@@ -1,0 +1,14 @@
+{
+  "name": "MOSS",
+  "version": "1.0.0",
+  "description": "MOSS Visualization",
+  "main": "index.js",
+  "author": "Kenton Blacutt",
+  "license": "MIT",
+  "dependencies": {
+    "animejs": "^3.0.1",
+    "budo": "^11.6.1",
+    "d3": "^5.9.1",
+    "sigma": "^1.2.1"
+  }
+}
