@@ -1,3 +1,7 @@
+.person {
+    stroke: black;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -40,14 +44,4 @@
   border-radius: 50%;
   background: #4CAF50;
   cursor: pointer;
-}
-
-
-.person {
-  {
-    stroke: "black";
-}
-}
-.hover {
-    background-color: rgba(0, 0, 0, .5);
 }

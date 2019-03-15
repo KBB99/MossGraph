@@ -139,7 +139,7 @@ function addConnection(p1,p2) {
     var y1 = people_coordinates[index1][1]
     var x2 = people_coordinates[index2][0]
     var y2 = people_coordinates[index2][1]
-    d3.select("#graph").append("line").attr("class","black").attr("x1",x1).attr("y1",y1).attr("x2",x2).attr("y2",y2).attr("id",p1+ " " + p2)
+    d3.select("#graph").append("line").attr("class","person").attr("x1",x1).attr("y1",y1).attr("x2",x2).attr("y2",y2).attr("id",p1+ " " + p2)
   }
   catch (err) {
     console.log(err)
