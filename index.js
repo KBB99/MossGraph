@@ -117,8 +117,9 @@ function handleMouseOver(person) {
     for (var i = 0; i < Object.keys(people_data).length; i++){
       const people_string = Object.keys(people_data)[i]
       if (people_string.includes(person)){
-        console.log(people_string)
-        d3.rgb(d3.select("#"+people_string).style("stroke")).lighter(0.5)
+        console.log('True')
+        console.log(d3.select(people_string).attr("class","empty"))
+        d3.select(people_string).attr("class","empty");
       }
     }
   }
